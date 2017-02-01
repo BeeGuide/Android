@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    >
+
+    <ImageView
+        android:id="@+id/profilePicture"
+        android:layout_width="100dp"
+        tools:background="#AAA"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_height="100dp"
+        android:contentDescription="@string/profile_picture" />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/black"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_toRightOf="@+id/profilePicture"
+        android:layout_toEndOf="@+id/profilePicture"
+        android:layout_alignTop="@+id/profilePicture"
+        android:textStyle="bold"
+        tools:text="John"
+        />
+
+    <TextView
+        android:id="@+id/thematique"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textColor="@android:color/black"
+        android:layout_alignStart="@+id/name"
+        android:layout_alignLeft="@+id/name"
+        android:layout_below="@+id/name"
+        tools:text="Bouffe et ciné"
+        />
+
+    <RatingBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/rating"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        style="@style/Widget.AppCompat.RatingBar.Small"
+        android:numStars="5"
+        android:rating="4" />
+
+    <TextView
+        android:text="@string/price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/price"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:layout_alignBottom="@+id/profilePicture"
+        android:layout_alignLeft="@+id/thematique"
+        android:layout_alignStart="@+id/thematique"
+        android:textColor="@color/colorPrimary" />
+
+    <TextView
+        android:text="@string/duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:id="@+id/duration"
+        android:layout_below="@+id/thematique"
+        android:layout_alignLeft="@+id/thematique"
+        android:layout_alignStart="@+id/thematique" />
+
+    <TextView
+        android:text="@string/rated"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/rating"
+        android:layout_toStartOf="@+id/rating"
+        android:id="@+id/rating_label" />
+
+    <TextView
+        android:text="@string/occupation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/occupation"
+        android:layout_alignBottom="@+id/price"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+
+    <TextView
+        android:text="@string/available_seats"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/occupation_label"
+        android:layout_above="@+id/occupation"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+</RelativeLayout>

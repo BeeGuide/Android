@@ -46,7 +46,9 @@
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:focusableInTouchMode="true">
 
                 <AutoCompleteTextView
                     android:layout_width="match_parent"
@@ -59,14 +61,18 @@
 
             </android.support.design.widget.TextInputLayout>
 
-            <Button
-                android:text="@string/go"
-                style="?android:textAppearanceSmall"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:id="@+id/button" />
-
         </LinearLayout>
     </ScrollView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_anchor="@id/app_bar"
+        app:layout_anchorGravity="bottom|end"
+        app:srcCompat="@android:drawable/ic_menu_search"
+        app:backgroundTint="@color/colorPrimary"
+        android:layout_below="@+id/login_form"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>

@@ -23,7 +23,8 @@
         style="?android:attr/progressBarStyleLarge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginBottom="61dp"
         android:visibility="gone" />
 
     <ScrollView
@@ -93,5 +94,6 @@
         app:srcCompat="@drawable/turista"
         android:id="@+id/imageView2"
         android:scaleType="centerCrop"
+        android:layout_gravity="bottom"
         android:contentDescription="@string/turista" />
 </LinearLayout>

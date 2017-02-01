@@ -9,8 +9,6 @@ import android.support.v7.widget.Toolbar
 import android.text.TextUtils
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
-import android.widget.Button
-import android.widget.TextView
 
 
 class MainActivity : AppCompatActivity() {
@@ -24,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         val cityView = findViewById(R.id.city) as AutoCompleteTextView
-        val goButton = findViewById(R.id.button) as Button
+        val goButton = findViewById(R.id.button) as FloatingActionButton
 
         val intent = intent
         val user = intent.getStringExtra(LoginActivity.LOGIN_INFO)
