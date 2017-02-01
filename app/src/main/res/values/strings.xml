@@ -124,4 +124,5 @@
     <string name="occupation">%1$d/%2$d</string>
     <string name="duration">Duration: %dh</string>
     <string name="price">%d€</string>
+    <string name="title_activity_profil">ProfilActivity</string>
 </resources>

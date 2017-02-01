@@ -3,7 +3,6 @@ package fr.beeguide.beeguide
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
-import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.text.TextUtils
@@ -23,6 +22,7 @@ class MainActivity : AppCompatActivity() {
 
         val cityView = findViewById(R.id.city) as AutoCompleteTextView
         val goButton = findViewById(R.id.button) as FloatingActionButton
+        val fabButton = findViewById(R.id.fab) as FloatingActionButton
 
         val intent = intent
         val user = intent.getStringExtra(LoginActivity.LOGIN_INFO)
@@ -34,12 +34,12 @@ class MainActivity : AppCompatActivity() {
 
         goButton.setOnClickListener({ go(cityView.text.toString()) })
 
-
-        val fab = findViewById(R.id.fab) as FloatingActionButton
+        fabButton.setOnClickListener { fab() }
+        /*/val fab = findViewById(R.id.fab) as FloatingActionButton
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Bitch!", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
-        }
+        }*/
     }
 
     fun go(city: String) {
@@ -55,6 +55,11 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra(Intents.CITY, city)
             startActivity(intent)
         }
+    }
+
+    fun fab(){
+        val intent = Intent(this, ProfilActivity::class.java)
+        startActivity(intent)
     }
 
 }
