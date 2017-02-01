@@ -21,7 +21,7 @@
     <ProgressBar
         android:id="@+id/login_progress"
         style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:visibility="gone" />
@@ -80,7 +80,7 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/action_sign_in"
                 android:textStyle="bold"
-                android:background="@android:color/holo_orange_dark"
+                android:background="@color/colorPrimary"
                 tools:style="@style/Widget.AppCompat.Button.Borderless"
                 android:textColor="@android:color/background_light" />
 
@@ -89,7 +89,7 @@
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         app:srcCompat="@drawable/turista"
         android:id="@+id/imageView2"
         android:scaleType="centerCrop"
