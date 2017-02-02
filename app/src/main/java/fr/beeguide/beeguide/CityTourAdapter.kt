@@ -1,12 +1,15 @@
 package fr.beeguide.beeguide
 
+import android.app.Activity
 import android.content.Context
-import android.graphics.Color
 import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.ArrayAdapter
+import android.widget.ImageView
+import android.widget.RatingBar
+import android.widget.TextView
 import fr.beeguide.beeguide.model.CityTour
 
 
@@ -23,10 +26,12 @@ class CityTourAdapter(context: Context, cityTours: List<CityTour>) : ArrayAdapte
     }
 
     override fun getView(position: Int, _convertView: View?, parent: ViewGroup): View {
-        val convertView = _convertView ?: LayoutInflater.from(context).inflate(R.layout.row_city_tour, parent, false)
 
-        var ct = convertView.tag as? CityTourViewHolder
-        if (ct == null) {
+        val convertView: View
+        val ct: CityTourViewHolder
+
+        if(_convertView == null) {
+            convertView = (context as Activity).layoutInflater.inflate(R.layout.row_city_tour, parent, false)
             ct = CityTourViewHolder()
             ct.name = convertView.findViewById(R.id.name) as TextView
             ct.thematique = convertView.findViewById(R.id.thematique) as TextView
@@ -36,6 +41,9 @@ class CityTourAdapter(context: Context, cityTours: List<CityTour>) : ArrayAdapte
             ct.duration = convertView.findViewById(R.id.duration) as TextView
             ct.occupation = convertView.findViewById(R.id.occupation) as TextView
             convertView.tag = ct
+        } else {
+            convertView = _convertView
+            ct = convertView.tag as CityTourViewHolder
         }
 
         //getItem(position) va récupérer l'item [position] de la List<Tweet> cityTours

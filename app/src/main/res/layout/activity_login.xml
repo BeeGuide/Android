@@ -13,7 +13,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="115dp"
-        app:srcCompat="@drawable/icon_original"
+        app:srcCompat="@drawable/icon"
         android:id="@+id/imageView"
         android:paddingTop="@dimen/activity_vertical_margin"
         android:contentDescription="@string/app_name" />
