@@ -20,7 +20,7 @@ class ScrollingActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         val intent = intent
-        val city = intent.getStringExtra(Intents.CITY)
+        val city = intent.getStringExtra(getString(R.string.intent_city))
         title = city
         changeHeader(city)
 
@@ -36,7 +36,7 @@ class ScrollingActivity : AppCompatActivity() {
 
         val fab = findViewById(R.id.fab) as FloatingActionButton
         fab.setOnClickListener { view ->
-            (findViewById(R.id.app_bar) as AppBarLayout).setExpanded(false)
+            finish()
         }
     }
 

@@ -3,7 +3,7 @@
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password (optional)</string>
+    <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_email">This email address is invalid</string>
@@ -125,4 +125,9 @@
     <string name="duration">Duration: %dh</string>
     <string name="price">%d€</string>
     <string name="title_activity_profil">ProfilActivity</string>
+    <string name="intent_city">fr.beeguide.app.CITY</string>
+    <string name="preference_file_token">fr.beeguide.app.PREFERENCE_FILE_TOKEN</string>
+    <string name="token">fr.beeguide.app.TOKEN</string>
+    <string name="token_default">NO_TOKEN</string>
+    <string name="intent_email">fr.beeguide.app.EMAIL</string>
 </resources>

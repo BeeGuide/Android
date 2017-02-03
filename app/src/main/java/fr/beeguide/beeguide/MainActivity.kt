@@ -25,7 +25,8 @@ class MainActivity : AppCompatActivity() {
         val fabButton = findViewById(R.id.fab) as FloatingActionButton
 
         val intent = intent
-        val user = intent.getStringExtra(LoginActivity.LOGIN_INFO)
+        // TODO: User is not here, idiot !
+        val user = intent.getStringExtra(getString(R.string.token))
         title = String.format(getString(R.string.logged_message), user)
 
         val adapter = ArrayAdapter<String>(this,
@@ -52,7 +53,7 @@ class MainActivity : AppCompatActivity() {
             //focusView = mEmailView
         } else {
             val intent = Intent(this, ScrollingActivity::class.java)
-            intent.putExtra(Intents.CITY, city)
+            intent.putExtra(getString(R.string.intent_city), city)
             startActivity(intent)
         }
     }
