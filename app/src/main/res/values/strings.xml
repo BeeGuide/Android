@@ -130,4 +130,11 @@
     <string name="token">fr.beeguide.app.TOKEN</string>
     <string name="token_default">NO_TOKEN</string>
     <string name="intent_email">fr.beeguide.app.EMAIL</string>
+    <string name="welcome">Welcome to BeeGuide!</string>
+    <string name="phone_number">Phone number</string>
+    <string name="birthday">Birthday</string>
+    <string name="name">Name</string>
+    <string name="beeguide_logo">BeeGuide logo</string>
+    <string name="already_a_member_login">Already a member? Login</string>
+    <string name="create_account">Create Account</string>
 </resources>
