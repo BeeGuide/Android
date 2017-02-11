@@ -8,11 +8,11 @@ import android.database.sqlite.SQLiteOpenHelper
 class UserDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
     companion object {
         // If you change the database schema, you must increment the database version.
-        val DATABASE_VERSION = 1
+        val DATABASE_VERSION = 2
         val DATABASE_NAME = "Users.db"
 
         val SQL_CREATE_ENTRIES = "CREATE TABLE User (id INTEGER PRIMARY KEY, " +
-                "username TEXT, password TEXT)"
+                "username TEXT, password TEXT, name TEXT, birthday TEXT, phone TEXT)"
         val SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS User"
     }
 

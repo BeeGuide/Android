@@ -65,7 +65,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     "xp3Y3pB37A=="
     };
 
-    private static String passwordEncryption(String pass) {
+    public static String passwordEncryption(String pass) {
         String result;
         try {
             result = Base64.encodeToString(MessageDigest.getInstance("SHA-512").digest(pass.getBytes("UTF-8")), Base64.DEFAULT);
@@ -214,7 +214,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 mCheckTask.execute((Void) null);
             } else {
                 // to perform the user login attempt.
-                showProgress(true);
                 mAuthTask = new UserLoginTask(email, password, this);
                 mAuthTask.execute((Void) null);
             }

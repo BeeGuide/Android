@@ -2,14 +2,21 @@ package fr.beeguide.beeguide
 
 import android.app.Activity
 import android.app.ProgressDialog
+import android.content.ContentValues
+import android.content.Context
+import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.text.SpannableStringBuilder
+import android.util.Base64
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import java.io.BufferedInputStream
+import java.net.HttpURLConnection
+import java.net.URL
 
 
 class RegisterActivity : AppCompatActivity() {
@@ -21,7 +28,11 @@ class RegisterActivity : AppCompatActivity() {
     val passwordText: EditText by lazy { findViewById(R.id.input_password) as EditText }
     val signupButton: Button by lazy { findViewById(R.id.btn_signup) as Button }
     val loginLink: TextView by lazy { findViewById(R.id.link_login) as TextView }
-    val birthday: EditText by lazy { findViewById(R.id.input_birthday) as EditText }
+    val birthdayText: EditText by lazy { findViewById(R.id.input_birthday) as EditText }
+    val phoneText: EditText by lazy { findViewById(R.id.input_phone) as EditText }
+
+    private var mRegistrationTask: UserRegistrationTask? = null
+    private var progressDialog: ProgressDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,38 +61,24 @@ class RegisterActivity : AppCompatActivity() {
 
         signupButton.isEnabled = false
 
-        val progressDialog = ProgressDialog(this@RegisterActivity,
+        progressDialog = ProgressDialog(this@RegisterActivity,
                 R.style.AppTheme_Dark_Dialog)
-        progressDialog.isIndeterminate = true
-        progressDialog.setMessage("Creating Account...")
-        progressDialog.show()
+        progressDialog!!.isIndeterminate = true
+        progressDialog!!.setMessage("Creating Account...")
+        progressDialog!!.show()
 
         val name = nameText.text.toString()
         val email = emailText.text.toString()
         val password = passwordText.text.toString()
+        val phone = phoneText.text.toString()
+        val birthday = birthdayText.text.toString()
 
-        // TODO: Implement your own signup logic here.
-
-        android.os.Handler().postDelayed(
-                {
-                    // On complete call either onSignupSuccess or onSignupFailed
-                    // depending on success
-                    onSignupSuccess()
-                    // onSignupFailed();
-                    progressDialog.dismiss()
-                }, 3000)
-    }
-
-
-    fun onSignupSuccess() {
-        signupButton.isEnabled = true
-        setResult(Activity.RESULT_OK, null)
-        finish()
+        mRegistrationTask = UserRegistrationTask(email, password, birthday, name, phone, this)
+        mRegistrationTask!!.execute()
     }
 
     fun onSignupFailed() {
         Toast.makeText(baseContext, "Signup failed", Toast.LENGTH_LONG).show()
-
         signupButton.isEnabled = true
     }
 
@@ -115,4 +112,66 @@ class RegisterActivity : AppCompatActivity() {
 
         return valid
     }
+
+    /**
+     * Represents an asynchronous registration task used to register
+     * the user.
+     */
+    inner class UserRegistrationTask internal constructor(
+            private val mEmail: String, private val mPassword: String,
+            private val mBirthday: String, private val name: String,
+            private val mPhone: String,
+            private val mContext: Context) : AsyncTask<Void, Void, Boolean>() {
+
+        private val mHashed: String = LoginActivity.passwordEncryption(mPassword)
+
+        override fun doInBackground(vararg params: Void): Boolean? {
+
+            val mDbHelper = UserDbHelper(mContext)
+            val db = mDbHelper.writableDatabase
+
+            val form = Base64.encodeToString(
+                    (mEmail + ':' + mPassword + ':' +
+                            name + ':' + mPhone + ':' + mBirthday).toByteArray(),
+                    Base64.DEFAULT)
+            try {
+                val url = URL("http://api.beeguide.fr/?r=" + form)
+                val urlConnection = url.openConnection() as HttpURLConnection
+                val `in` = BufferedInputStream(urlConnection.inputStream)
+                Log.i("IS", "" + `in`.read())
+                urlConnection.disconnect()
+            } catch (e: Exception) {
+                Log.i("API_ERROR", e.message)
+            }
+
+            // Create a new map of values, where column names are the keys
+            val values = ContentValues()
+            values.put("username", mEmail)
+            values.put("password", mHashed)
+            values.put("name", name)
+            values.put("birthday", mBirthday)
+            values.put("phone", mPhone)
+
+            // Insert the new row, returning the primary key value of the new row
+            return db.insert("User", null, values) != -1L
+        }
+
+        override fun onPostExecute(success: Boolean?) {
+            mRegistrationTask = null
+            progressDialog!!.dismiss()
+            if (success!!) {
+                signupButton.isEnabled = true
+                setResult(Activity.RESULT_OK, null)
+                finish()
+            } else {
+                onSignupFailed()
+            }
+        }
+
+        override fun onCancelled() {
+            mRegistrationTask = null
+        }
+    }
 }
+
+
