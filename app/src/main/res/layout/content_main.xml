@@ -56,6 +56,9 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/textView2"
                     android:hint="@string/prompt_city"
+                    android:imeActionId="@+id/go"
+                    android:imeActionLabel="@string/go"
+                    android:imeOptions="actionUnspecified"
                     android:maxLines="1"
                     android:id="@+id/city"
                     android:textAlignment="center" />

@@ -6,13 +6,19 @@ import android.support.design.widget.FloatingActionButton
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.text.TextUtils
+import android.view.KeyEvent
+import android.view.inputmethod.EditorInfo
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import android.widget.TextView
 
 
 class MainActivity : AppCompatActivity() {
 
-    private val AVAILABLE_CITIES = arrayOf("Lyon", "Givors", "Paris", "Toulouse")
+    private val AVAILABLE_CITIES = arrayOf("Lyon", "Givors", "Paris", "Toulouse",
+            "Marseille", "Lille", "Chateau-neuf-les-martigues")
+
+    val cityView: AutoCompleteTextView by lazy { findViewById(R.id.city) as AutoCompleteTextView }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,7 +26,6 @@ class MainActivity : AppCompatActivity() {
         val toolbar = findViewById(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
 
-        val cityView = findViewById(R.id.city) as AutoCompleteTextView
         val goButton = findViewById(R.id.button) as FloatingActionButton
         val fabButton = findViewById(R.id.fab) as FloatingActionButton
 
@@ -32,6 +37,13 @@ class MainActivity : AppCompatActivity() {
         val adapter = ArrayAdapter<String>(this,
                 android.R.layout.simple_dropdown_item_1line, AVAILABLE_CITIES)
         cityView.setAdapter<ArrayAdapter<String>>(adapter)
+        cityView.setOnEditorActionListener(TextView.OnEditorActionListener { textView, id, keyEvent ->
+            if (id == R.id.go || id == EditorInfo.IME_NULL) {
+                go(cityView.text.toString())
+                return@OnEditorActionListener true
+            }
+            false
+        })
 
         goButton.setOnClickListener({ go(cityView.text.toString()) })
 
@@ -46,11 +58,9 @@ class MainActivity : AppCompatActivity() {
     fun go(city: String) {
 
         if (TextUtils.isEmpty(city)) run {
-            //mEmailView.setError(getString(R.string.error_field_required))
-            //focusView = mEmailView
+            cityView.error = getString(R.string.error_field_required)
         } else if (!AVAILABLE_CITIES.contains(city)) {
-            //mEmailView.setError(getString(R.string.error_not_available))
-            //focusView = mEmailView
+            cityView.error = getString(R.string.error_not_available)
         } else {
             val intent = Intent(this, ScrollingActivity::class.java)
             intent.putExtra(getString(R.string.intent_city), city)
