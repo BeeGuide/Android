@@ -107,7 +107,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="76dp"
                 android:text="Viral Android"
-                android:textColor="#fff"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
@@ -115,12 +115,14 @@
 
         <ImageView
             android:id="@+id/header_cover_image"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:scaleType="centerCrop"
             android:src="@android:color/transparent"
+            android:layout_height="75dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_height="75dp" />
+            android:cropToPadding="false"
+            android:adjustViewBounds="false" />
     </RelativeLayout>
 </ScrollView>
