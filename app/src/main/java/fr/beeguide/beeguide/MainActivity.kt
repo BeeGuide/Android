@@ -10,6 +10,7 @@ import android.text.TextUtils
 import android.view.inputmethod.EditorInfo
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import android.widget.Button
 import android.widget.TextView
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
@@ -33,7 +34,7 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks, G
         setSupportActionBar(toolbar)
 
         val goButton = findViewById(R.id.button) as FloatingActionButton
-        val fabButton = findViewById(R.id.fab) as FloatingActionButton
+        val fabButton = findViewById(R.id.fab) as Button
 
         val intent = intent
         // TODO: User is not here, idiot !
