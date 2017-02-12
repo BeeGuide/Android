@@ -18,7 +18,6 @@ import java.io.BufferedInputStream
 import java.net.HttpURLConnection
 import java.net.URL
 
-
 class RegisterActivity : AppCompatActivity() {
 
     private val TAG = "SignupActivity"

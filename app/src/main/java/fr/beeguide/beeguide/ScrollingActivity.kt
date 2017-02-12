@@ -1,5 +1,6 @@
 package fr.beeguide.beeguide
 
+import android.location.Location
 import android.os.Bundle
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.FloatingActionButton
@@ -58,51 +59,56 @@ class ScrollingActivity : AppCompatActivity() {
 
     fun getCityTours(city: String): List<CityTour> {
 
-        var alexandra: User = User("Alexandra", "Alexandra", "Lastname", Date(), Sex.FEMALE, "picture")
-        var diane: User = User("Diane", "Diane", "Lastname", Date(), Sex.FEMALE, "diane")
-        var solange: User = User("Solange", "Solange", "Lastname", Date(), Sex.FEMALE, "solange")
-        var marion: User = User("Marion", "Marion", "Lastname", Date(), Sex.FEMALE, "marion")
-        var manon: User = User("Manon", "Manon", "Lastname", Date(), Sex.FEMALE, "manon")
-        var marie: User = User("Marie", "Marie", "Lastname", Date(), Sex.FEMALE, "marie")
-        var claudia: User = User("Claudia", "Claudia", "Lastname", Date(), Sex.FEMALE, "claudia")
-        var margot: User = User("Margot", "Margot", "Lastname", Date(), Sex.FEMALE, "margot")
-        var pauline: User = User("Pauline", "Pauline", "Lastname", Date(), Sex.FEMALE, "pauline")
-        var flora: User = User("Flora", "Flora", "Lastname", Date(), Sex.FEMALE, "flora")
+        val lyon: Location = Location(""); lyon.latitude = 45.764043; lyon.longitude = 4.835658999999964
+        val paris: Location = Location(""); paris.latitude = 48.85661400000001; paris.longitude = 2.3522219000000177
+        val marseille: Location = Location(""); marseille.latitude = 43.296482; marseille.longitude = 5.369779999999992
+
+        var requestedLocation: Location = Location(lyon)
+
+        val alexandra: User = User("Alexandra", "Alexandra", "Lastname", Date(), Sex.FEMALE, "picture")
+        val diane: User = User("Diane", "Diane", "Lastname", Date(), Sex.FEMALE, "diane")
+        val solange: User = User("Solange", "Solange", "Lastname", Date(), Sex.FEMALE, "solange")
+        val marion: User = User("Marion", "Marion", "Lastname", Date(), Sex.FEMALE, "marion")
+        val manon: User = User("Manon", "Manon", "Lastname", Date(), Sex.FEMALE, "manon")
+        val marie: User = User("Marie", "Marie", "Lastname", Date(), Sex.FEMALE, "marie")
+        val claudia: User = User("Claudia", "Claudia", "Lastname", Date(), Sex.FEMALE, "claudia")
+        val margot: User = User("Margot", "Margot", "Lastname", Date(), Sex.FEMALE, "margot")
+        val pauline: User = User("Pauline", "Pauline", "Lastname", Date(), Sex.FEMALE, "pauline")
+        val flora: User = User("Flora", "Flora", "Lastname", Date(), Sex.FEMALE, "flora")
 
 
-        var cedric: User = User("Cedric", "Cyril", "Couturier", Date(), Sex.MALE, "c")
-        var bastien: User = User("Bastien", "Bastien", "Guyl", Date(), Sex.MALE, "b")
-        var florian: User = User("Florian", "Florian", "Martin", Date(), Sex.MALE, "f")
-        var john: User = User("John", "Jonathan", "Platteau", Date(), Sex.MALE, "j")
-        var crabe: User = User("Mr.Crabe", "Gaëtan", "Roche", Date(), Sex.MALE, "g")
-        var vial: User = User("Chrichri", "Christian", "Vial", Date(), Sex.MALE, "vial")
+        val cedric: User = User("Cedric", "Cyril", "Couturier", Date(), Sex.MALE, "c")
+        val bastien: User = User("Bastien", "Bastien", "Guyl", Date(), Sex.MALE, "b")
+        val florian: User = User("Florian", "Florian", "Martin", Date(), Sex.MALE, "f")
+        val john: User = User("John", "Jonathan", "Platteau", Date(), Sex.MALE, "j")
+        val crabe: User = User("Mr.Crabe", "Gaëtan", "Roche", Date(), Sex.MALE, "g")
+        val vial: User = User("Chrichri", "Christian", "Vial", Date(), Sex.MALE, "vial")
 
         // Webservice here, maybe ?
-        val tours = ArrayList<CityTour>()
-        tours.add(CityTour(alexandra, 4, 2, 12, "Historique", 2, 5))
-        if(city == "Givors")
-        {
-            tours.add(CityTour(diane, 4, 1, 25, "Insolite", 0, 1))
-            tours.add(CityTour(solange, 5, 8, 42, "Gastronomie", 1, 2))
-            tours.add(CityTour(marion, 4, 3, 10, "Culture", 2, 10))
-            tours.add(CityTour(manon, 2, 1, 4, "Randonné", 4, 6))
-            tours.add(CityTour(marie, 0, 4, 1, "Balade", 2, 50))
-            tours.add(CityTour(claudia, 1, 6, 9, "Shopping", 50, 50))
-            tours.add(CityTour(margot, 3, 7, 7, "Culture", 2, 3))
-            tours.add(CityTour(pauline, 4, 2, 0, "Sport", 8, 10))
-            tours.add(CityTour(flora, 3, 3, 18, "Religieux", 1, 5))
-        }
-        else {
-            tours.add(CityTour(cedric, 2, 3, 5, "Patrimoine", 0, 1))
-            tours.add(CityTour(solange, 5, 8, 42, "Gastronomie", 1, 2))
-            tours.add(CityTour(bastien, 4, 3, 10, "Culture", 2, 10))
-            tours.add(CityTour(marie, 2, 1, 4, "Restauration", 4, 6))
-            tours.add(CityTour(florian, 0, 4, 1, "Shopping", 2, 50))
-            tours.add(CityTour(john, 5, 1, 1, "Patisserie", 50, 50))
-            tours.add(CityTour(crabe, 3, 7, 7, "Randonné", 2, 3))
-            tours.add(CityTour(pauline, 4, 2, 0, "Sport", 8, 10))
-        }
-        tours.add(CityTour(vial, 5, 48, 0, "Programmation", 42, 99))
-        return tours
+        var toursAvailables = ArrayList<CityTour>()
+
+        toursAvailables.add(CityTour(alexandra, 4, 2, 12, "Historique", 2, 5, lyon))
+        toursAvailables.add(CityTour(diane, 4, 1, 25, "Insolite", 0, 1, lyon))
+        toursAvailables.add(CityTour(solange, 5, 8, 42, "Gastronomie", 1, 2, marseille))
+        toursAvailables.add(CityTour(marion, 4, 3, 10, "Culture", 2, 10, paris))
+        toursAvailables.add(CityTour(manon, 2, 1, 4, "Randonné", 4, 6, lyon))
+        toursAvailables.add(CityTour(marie, 0, 4, 1, "Balade", 2, 50, marseille))
+        toursAvailables.add(CityTour(claudia, 1, 6, 9, "Shopping", 50, 50, paris))
+        toursAvailables.add(CityTour(margot, 3, 7, 7, "Culture", 2, 3, lyon))
+        toursAvailables.add(CityTour(pauline, 4, 2, 0, "Sport", 8, 10, marseille))
+        toursAvailables.add(CityTour(flora, 3, 3, 18, "Religieux", 1, 5, paris))
+        toursAvailables.add(CityTour(cedric, 2, 3, 5, "Patrimoine", 0, 1, lyon))
+        toursAvailables.add(CityTour(solange, 5, 8, 42, "Gastronomie", 1, 2, marseille))
+        toursAvailables.add(CityTour(bastien, 4, 3, 10, "Culture", 2, 10, paris))
+        toursAvailables.add(CityTour(marie, 2, 1, 4, "Restauration", 4, 6, lyon))
+        toursAvailables.add(CityTour(florian, 0, 4, 1, "Shopping", 2, 50, marseille))
+        toursAvailables.add(CityTour(john, 5, 1, 1, "Patisserie", 50, 50, paris))
+        toursAvailables.add(CityTour(crabe, 3, 7, 7, "Randonné", 2, 3, lyon))
+        toursAvailables.add(CityTour(pauline, 4, 2, 0, "Sport", 8, 10, marseille))
+        toursAvailables.add(CityTour(vial, 5, 48, 0, "Programmation", 42, 99, paris))
+
+        val requestedTours = toursAvailables.filter { requestedLocation.distanceTo(it.location) < 50 }
+
+        return requestedTours
     }
 }

@@ -1,9 +1,12 @@
 package fr.beeguide.beeguide
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.text.TextUtils
@@ -15,7 +18,6 @@ import android.widget.TextView
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.location.LocationServices
-
 
 class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
@@ -88,13 +90,11 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks, G
         var mLatitudeText: String
         var mLongitudeText: String
 
-        if(mGoogleApiClient == null)
-            println("APIClient is null")
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+
+        }
 
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient)
-
-        if(mLastLocation == null)
-            println("LastLocation is null")
 
         if(mLastLocation != null){
             println(mLastLocation!!.latitude)
