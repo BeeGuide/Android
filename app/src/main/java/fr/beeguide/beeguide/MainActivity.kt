@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks, G
         setSupportActionBar(toolbar)
 
         val goButton = findViewById(R.id.button) as FloatingActionButton
-        val fabButton = findViewById(R.id.fab) as Button
+        val ProfilButton = findViewById(R.id.fab) as Button
 
         val intent = intent
         // TODO: User is not here, idiot !
@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks, G
 
         goButton.setOnClickListener({ go(cityView.text.toString()) })
 
-        fabButton.setOnClickListener { fab() }
+        ProfilButton.setOnClickListener { fab() }
         /*/val fab = findViewById(R.id.fab) as FloatingActionButton
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Bitch!", Snackbar.LENGTH_LONG)

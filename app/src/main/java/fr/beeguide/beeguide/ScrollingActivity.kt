@@ -98,7 +98,7 @@ class ScrollingActivity : AppCompatActivity() {
             tours.add(CityTour(bastien, 4, 3, 10, "Culture", 2, 10))
             tours.add(CityTour(marie, 2, 1, 4, "Restauration", 4, 6))
             tours.add(CityTour(florian, 0, 4, 1, "Shopping", 2, 50))
-            tours.add(CityTour(john, 5, 1, 1, "Patisserie", 50, 50))
+            tours.add(CityTour(john, 5, 1, 1, "Patisserie", 0, 50))
             tours.add(CityTour(crabe, 3, 7, 7, "Randonné", 2, 3))
             tours.add(CityTour(pauline, 4, 2, 0, "Sport", 8, 10))
         }
