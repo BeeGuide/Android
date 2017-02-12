@@ -12,13 +12,14 @@ class ProfilActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profil)
-        val toolbar = findViewById(R.id.toolbar) as Toolbar
-        setSupportActionBar(toolbar)
 
-        val fab = findViewById(R.id.fab) as FloatingActionButton
+
+        /*val toolbar = findViewById(R.id.toolbar) as Toolbar
+        setSupportActionBar(toolbar)*/
+
+        /*val fab = findViewById(R.id.fab) as FloatingActionButton
         fab.setOnClickListener { view ->
-            Snackbar.make(view, "Profil", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
-        }
+            finish()
+        }*/
     }
 }
