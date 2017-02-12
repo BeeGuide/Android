@@ -139,4 +139,5 @@
     <string name="beeguide_logo">BeeGuide logo</string>
     <string name="already_a_member_login">Already a member? Login</string>
     <string name="create_account">Create Account</string>
+    <string name="empty_list">Oops! Nobody\'s here :(</string>
 </resources>
