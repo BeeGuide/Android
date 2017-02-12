@@ -10,6 +10,7 @@ import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import android.widget.Button
 import android.widget.TextView
 
 
@@ -27,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         val goButton = findViewById(R.id.button) as FloatingActionButton
-        val fabButton = findViewById(R.id.fab) as FloatingActionButton
+        val fabButton = findViewById(R.id.fab) as Button
 
         val intent = intent
         // TODO: User is not here, idiot !
