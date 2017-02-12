@@ -1,42 +1,63 @@
 package fr.beeguide.beeguide
 
 import android.Manifest
+import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.res.Resources
 import android.location.Location
+import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
+import android.text.Html
+import android.text.Spanned
 import android.text.TextUtils
+import android.util.Log
+import android.view.KeyEvent
+import android.view.View
 import android.view.inputmethod.EditorInfo
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
-import android.widget.Button
-import android.widget.TextView
+import android.widget.*
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
+import com.google.android.gms.common.api.PendingResult
+import com.google.android.gms.common.api.ResultCallback
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.places.AutocompletePrediction
+import com.google.android.gms.location.places.PlaceBuffer
+import com.google.android.gms.location.places.Places
+import com.google.android.gms.location.places.Places.GeoDataApi
+import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment
+import com.google.android.gms.location.places.ui.PlacePicker
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
 
 class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+
+    val TAG = "SampleActivityBase"
 
     private val AVAILABLE_CITIES = arrayOf("Lyon", "Givors", "Paris", "Toulouse",
             "Marseille", "Lille", "Chateauneuf-les-martigues")
 
-    val cityView: AutoCompleteTextView by lazy { findViewById(R.id.city) as AutoCompleteTextView }
+    val PLACE_PICKER_REQUEST = 1
+    val cityView: AutoCompleteTextView by lazy { findViewById(R.id.autocomplete_places) as AutoCompleteTextView }
     var mGoogleApiClient: GoogleApiClient? = null
     var mLastLocation: Location? = null
+    private var mAutocompleteView: AutoCompleteTextView? = null
+    private var mAdapter: PlaceAutocompleteAdapter? = null
+    var requestLocation: Location = Location("")
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        println("Hello")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val toolbar = findViewById(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
 
         val goButton = findViewById(R.id.button) as FloatingActionButton
-        val ProfilButton = findViewById(R.id.fab) as Button
+        val profilButton = findViewById(R.id.fab) as Button
+        val placeInput = findViewById(R.id.textView2) as TextView
 
         val intent = intent
         // TODO: User is not here, idiot !
@@ -46,17 +67,25 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks, G
         val adapter = ArrayAdapter<String>(this,
                 android.R.layout.simple_dropdown_item_1line, AVAILABLE_CITIES)
         cityView.setAdapter<ArrayAdapter<String>>(adapter)
-        cityView.setOnEditorActionListener(TextView.OnEditorActionListener { textView, id, keyEvent ->
+        /*cityView.setOnEditorActionListener(TextView.OnEditorActionListener { textView, id, keyEvent ->
             if (id == R.id.go || id == EditorInfo.IME_NULL) {
-                go(cityView.text.toString())
+                go(requestLocation)
                 return@OnEditorActionListener true
             }
             false
-        })
+        })*/
 
-        goButton.setOnClickListener({ go(cityView.text.toString()) })
+        goButton.setOnClickListener({ go(requestLocation) })
 
-        ProfilButton.setOnClickListener { fab() }
+        //var autocompleteFragment = fragmentManager.findFragmentById(R.id.autocomplete_places) as PlaceAutocompleteFragment
+        //autocompleteFragment.setOnPlaceSelectedListener(this);
+
+        mAutocompleteView = findViewById(R.id.autocomplete_places) as AutoCompleteTextView
+        mAutocompleteView!!.setOnItemClickListener(mAutocompleteClickListener)
+
+        //placeInput.setOnEditorActionListener { textView, i, keyEvent -> onEditorAction(textView, i, keyEvent) }
+
+        profilButton.setOnClickListener { fab() }
         /*/val fab = findViewById(R.id.fab) as FloatingActionButton
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Bitch!", Snackbar.LENGTH_LONG)
@@ -64,6 +93,22 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks, G
         }*/
 
         instantiateGoogleAPIClient()
+
+        mAdapter = PlaceAutocompleteAdapter(this, mGoogleApiClient, null, null)
+        if(mAutocompleteView != null){
+            mAutocompleteView!!.setAdapter(mAdapter)
+        }
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == PLACE_PICKER_REQUEST) {
+            if (resultCode == Activity.RESULT_OK) {
+                val place = PlacePicker.getPlace(this, data)
+                val toastMsg = String.format("Place: %s", place.name)
+                Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
     fun instantiateGoogleAPIClient(){
@@ -72,7 +117,10 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks, G
                     .addConnectionCallbacks(this)
                     .addOnConnectionFailedListener(this)
                     .addApi(LocationServices.API)
+                    .addApi(Places.GEO_DATA_API)
+                    .addApi(Places.PLACE_DETECTION_API)
                     .build()
+
         }
     }
 
@@ -114,15 +162,16 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks, G
         println("Connection suspended ...")
     }
 
-    fun go(city: String) {
+    fun go(city: Location) {
 
-        if (TextUtils.isEmpty(city)) run {
+        if (city == null) run {
             cityView.error = getString(R.string.error_field_required)
-        } else if (!AVAILABLE_CITIES.contains(city)) {
+        } /*else if (!AVAILABLE_CITIES.contains(city)) {
             cityView.error = getString(R.string.error_not_available)
-        } else {
+        }*/ else {
             val intent = Intent(this, ScrollingActivity::class.java)
-            intent.putExtra(getString(R.string.intent_city), city)
+            val lyon: Location = Location(""); lyon.latitude = 45.764043; lyon.longitude = 4.835658999999964
+            intent.putExtra("cityRequested", lyon/*city*/)
             startActivity(intent)
         }
     }
@@ -131,5 +180,88 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks, G
         val intent = Intent(this, ProfilActivity::class.java)
         startActivity(intent)
     }
+
+    /**
+     * Listener that handles selections from suggestions from the AutoCompleteTextView that
+     * displays Place suggestions.
+     * Gets the place id of the selected item and issues a request to the Places Geo Data API
+     * to retrieve more details about the place.
+
+     * @see com.google.android.gms.location.places.GeoDataApi.getPlaceById
+     */
+    private val mAutocompleteClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
+        /*
+         Retrieve the place ID of the selected item from the Adapter.
+         The adapter stores each Place suggestion in a AutocompletePrediction from which we
+         read the place ID and title.
+          */
+        val item: AutocompletePrediction = mAdapter!!.getItem(position)
+        val placeId = item.getPlaceId()
+        val primaryText = item.getPrimaryText(null)
+
+        Log.i(TAG, "Autocomplete item selected: " + primaryText)
+
+        /*
+         Issue a request to the Places Geo Data API to retrieve a Place object with additional
+         details about the place.
+          */
+        val placeResult = Places.GeoDataApi
+                .getPlaceById(mGoogleApiClient, placeId)
+        placeResult.setResultCallback(mUpdatePlaceDetailsCallback)
+
+        Toast.makeText(applicationContext, "Clicked: " + primaryText,
+                Toast.LENGTH_SHORT).show()
+
+        var places: PendingResult<PlaceBuffer> = Places.GeoDataApi.getPlaceById(mGoogleApiClient, placeId)
+        Places.GeoDataApi.getPlaceById(mGoogleApiClient, placeId)
+            .setResultCallback(mUpdatePlaceDetailsCallback)
+
+
+
+        Log.i(TAG, "Called getPlaceById to get Place details for " + placeId!!)
+    }
+
+    /**
+     * Callback for results from a Places Geo Data API query that shows the first place result in
+     * the details view on screen.
+     */
+    private val mUpdatePlaceDetailsCallback = ResultCallback<PlaceBuffer> { places ->
+        if (!places.status.isSuccess) {
+            // Request did not complete successfully
+            Log.e(TAG, "Place query did not complete. Error: " + places.status.toString())
+            places.release()
+            return@ResultCallback
+        }
+        // Get the Place object from the buffer.
+        val place = places.get(0)
+
+        // Format details of the place for display and show it in a TextView.
+
+        // Display the third party attributions if set.
+//        val thirdPartyAttribution = places.attributions
+//        if (thirdPartyAttribution == null) {
+//            mPlaceDetailsAttribution.setVisibility(View.GONE)
+//        } else {
+//            mPlaceDetailsAttribution.setVisibility(View.VISIBLE)
+//            mPlaceDetailsAttribution.setText(Html.fromHtml(thirdPartyAttribution.toString()))
+//        }
+
+        var latLng: LatLng = place.latLng
+        requestLocation.latitude = latLng.latitude
+        requestLocation.longitude = latLng.longitude
+
+        Log.i(TAG, "Place details received: " + place.name)
+
+        places.release()
+    }
+
+    /*private fun formatPlaceDetails(res: Resources, name: CharSequence, id: String,
+                                   address: CharSequence, phoneNumber: CharSequence, websiteUri: Uri): Spanned {
+        Log.e(TAG, res.getString(R.string.place_details, name, id, address, phoneNumber,
+                websiteUri))
+        return Html.fromHtml(res.getString(R.string.place_details, name, id, address, phoneNumber,
+                websiteUri))
+
+    }*/
 
 }

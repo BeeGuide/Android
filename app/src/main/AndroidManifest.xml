@@ -15,6 +15,11 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDF7q3uS84vnp-baIGb-8-xEWUCrl9dUO8"/>
+
         <activity
             android:name=".LoginActivity"
             android:label="@string/app_name"

@@ -6,6 +6,7 @@ import android.support.design.widget.AppBarLayout
 import android.support.design.widget.FloatingActionButton
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
+import android.util.Log
 import android.widget.ImageView
 import android.widget.ListView
 import fr.beeguide.beeguide.model.CityTour
@@ -23,9 +24,12 @@ class ScrollingActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         val intent = intent
-        val city = intent.getStringExtra(getString(R.string.intent_city))
-        title = city
-        changeHeader(city)
+        var city: Location? = intent.getSerializableExtra("cityRequested") as? Location
+        if(city == null)
+            city = Location("")
+
+        //title = city
+        //changeHeader(city)
 
         val mListView = findViewById(R.id.listView) as ListView
         mListView.adapter = CityTourAdapter(this, getCityTours(city))
@@ -57,13 +61,13 @@ class ScrollingActivity : AppCompatActivity() {
         }
     }
 
-    fun getCityTours(city: String): List<CityTour> {
+    fun getCityTours(city: Location): List<CityTour> {
 
         val lyon: Location = Location(""); lyon.latitude = 45.764043; lyon.longitude = 4.835658999999964
         val paris: Location = Location(""); paris.latitude = 48.85661400000001; paris.longitude = 2.3522219000000177
         val marseille: Location = Location(""); marseille.latitude = 43.296482; marseille.longitude = 5.369779999999992
 
-        var requestedLocation: Location = Location(lyon)
+        var requestedLocation: Location = city
 
         val alexandra: User = User("Alexandra", "Alexandra", "Lastname", Date(), Sex.FEMALE, "picture")
         val diane: User = User("Diane", "Diane", "Lastname", Date(), Sex.FEMALE, "diane")

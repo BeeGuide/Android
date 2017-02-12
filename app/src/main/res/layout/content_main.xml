@@ -60,7 +60,7 @@
                     android:imeActionLabel="@string/go"
                     android:imeOptions="actionUnspecified"
                     android:maxLines="1"
-                    android:id="@+id/city"
+                    android:id="@+id/autocomplete_places"
                     android:textAlignment="center" />
 
             </android.support.design.widget.TextInputLayout>
