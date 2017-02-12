@@ -1,26 +1,32 @@
 package fr.beeguide.beeguide
 
 import android.content.Intent
+import android.location.Location
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.text.TextUtils
-import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.TextView
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.api.GoogleApiClient
+import com.google.android.gms.location.LocationServices
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     private val AVAILABLE_CITIES = arrayOf("Lyon", "Givors", "Paris", "Toulouse",
             "Marseille", "Lille", "Chateauneuf-les-martigues")
 
     val cityView: AutoCompleteTextView by lazy { findViewById(R.id.city) as AutoCompleteTextView }
+    var mGoogleApiClient: GoogleApiClient? = null
+    var mLastLocation: Location? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        println("Hello")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val toolbar = findViewById(R.id.toolbar) as Toolbar
@@ -53,6 +59,58 @@ class MainActivity : AppCompatActivity() {
             Snackbar.make(view, "Bitch!", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
         }*/
+
+        instantiateGoogleAPIClient()
+    }
+
+    fun instantiateGoogleAPIClient(){
+        if (mGoogleApiClient == null) {
+            mGoogleApiClient = GoogleApiClient.Builder(this)
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .addApi(LocationServices.API)
+                    .build()
+        }
+    }
+
+    override fun onStart() {
+        mGoogleApiClient?.connect()
+        super.onStart()
+    }
+
+    override fun onStop() {
+        mGoogleApiClient?.disconnect()
+        super.onStop()
+    }
+
+    override fun onConnected(p0: Bundle?) {
+        var mLatitudeText: String
+        var mLongitudeText: String
+
+        if(mGoogleApiClient == null)
+            println("APIClient is null")
+
+        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient)
+
+        if(mLastLocation == null)
+            println("LastLocation is null")
+
+        if(mLastLocation != null){
+            println(mLastLocation!!.latitude)
+            println(mLastLocation!!.longitude)
+        }
+
+    }
+
+    override fun onConnectionFailed(p0: ConnectionResult) {
+        println("Connection failed ...")
+        println(p0.errorCode)
+        println(p0.errorMessage)
+        println(p0)
+    }
+
+    override fun onConnectionSuspended(p0: Int) {
+        println("Connection suspended ...")
     }
 
     fun go(city: String) {

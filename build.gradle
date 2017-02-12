@@ -13,6 +13,7 @@ buildscript {
         // in the individual module build.gradle files
     }
 }
+
 apply plugin: 'kotlin'
 
 allprojects {
@@ -26,9 +27,13 @@ task clean(type: Delete) {
 }
 repositories {
     mavenCentral()
+    maven {
+        url "https://repo.spring.io/libs-milestone"
+    }
 }
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    compile "org.springframework.android:spring-android-rest-template:2.0.0.M3"
 }
 sourceSets {
     main.java.srcDirs += 'src/main/kotlin'
