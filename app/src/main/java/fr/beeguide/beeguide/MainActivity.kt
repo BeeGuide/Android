@@ -16,7 +16,7 @@ import android.widget.TextView
 class MainActivity : AppCompatActivity() {
 
     private val AVAILABLE_CITIES = arrayOf("Lyon", "Givors", "Paris", "Toulouse",
-            "Marseille", "Lille", "Chateau-neuf-les-martigues")
+            "Marseille", "Lille", "Chateauneuf-les-martigues")
 
     val cityView: AutoCompleteTextView by lazy { findViewById(R.id.city) as AutoCompleteTextView }
 

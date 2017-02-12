@@ -1,4 +1,12 @@
 package fr.beeguide.beeguide.model
 
-class CityTour(val picture: String, val name: String, val rating: Byte, val duration: Byte,
-               val price: Byte, val thematique: String, val occupation: Byte, val capacity: Byte)
+class CityTour(
+        var guide: User,
+        var rating: Byte,
+        var duration: Byte,
+        var price: Byte,
+        var thematic: String,
+        var occupation: Byte,
+        var capacity: Byte/*,
+        var guests: List<User>*/
+)

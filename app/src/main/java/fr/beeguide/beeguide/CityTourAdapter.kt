@@ -50,14 +50,14 @@ class CityTourAdapter(context: Context, cityTours: List<CityTour>) : ArrayAdapte
         val c: CityTour = getItem(position)
 
         //il ne reste plus qu'à remplir notre vue
-        ct.name?.text = c.name
-        ct.thematique?.text = c.thematique
+        ct.name?.text = c.guide.username
+        ct.thematique?.text = c.thematic
         ct.price?.text = String.format(context.getString(R.string.price), c.price)
         ct.duration?.text = String.format(context.getString(R.string.duration), c.duration)
         ct.occupation?.text = String.format(context.getString(R.string.occupation), c.occupation, c.capacity)
         ct.rating?.rating = c.rating.toFloat()
         ct.rating?.numStars = 5
-        val id = context.resources.getIdentifier(c.picture, "drawable", context.packageName)
+        val id = context.resources.getIdentifier(c.guide.picture, "drawable", context.packageName)
         ct.profilePicture?.setImageDrawable(ContextCompat.getDrawable(context, id))
 
         val occupation_percent: Float = c.occupation.toFloat() / c.capacity.toFloat()
