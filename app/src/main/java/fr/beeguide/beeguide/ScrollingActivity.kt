@@ -24,12 +24,12 @@ class ScrollingActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         val intent = intent
-        var city: Location? = intent.getSerializableExtra("cityRequested") as? Location
-        if(city == null)
-            city = Location("")
-
-        //title = city
-        //changeHeader(city)
+        val city = Location("")
+        city.latitude = intent.getDoubleExtra(getString(R.string.intent_location_latitude), 0.0)
+        city.longitude = intent.getDoubleExtra(getString(R.string.intent_location_longitude), 0.0)
+        val name = intent.getStringExtra(getString(R.string.intent_location_name))
+        title = name
+        changeHeader(name)
 
         val mListView = findViewById(R.id.listView) as ListView
         mListView.adapter = CityTourAdapter(this, getCityTours(city))

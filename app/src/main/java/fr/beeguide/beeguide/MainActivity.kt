@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks, G
             false
         })*/
 
-        goButton.setOnClickListener({ go(requestLocation) })
+        goButton.setOnClickListener({ go(requestLocation, cityView.text.toString()) })
 
         //var autocompleteFragment = fragmentManager.findFragmentById(R.id.autocomplete_places) as PlaceAutocompleteFragment
         //autocompleteFragment.setOnPlaceSelectedListener(this);
@@ -162,16 +162,15 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks, G
         println("Connection suspended ...")
     }
 
-    fun go(city: Location) {
+    fun go(location: Location?, name: String) {
 
-        if (city == null) run {
+        if (location == null) {
             cityView.error = getString(R.string.error_field_required)
-        } /*else if (!AVAILABLE_CITIES.contains(city)) {
-            cityView.error = getString(R.string.error_not_available)
-        }*/ else {
+        }  else {
             val intent = Intent(this, ScrollingActivity::class.java)
-            val lyon: Location = Location(""); lyon.latitude = 45.764043; lyon.longitude = 4.835658999999964
-            intent.putExtra("cityRequested", lyon/*city*/)
+            intent.putExtra(getString(R.string.intent_location_latitude), location.latitude)
+            intent.putExtra(getString(R.string.intent_location_longitude), location.longitude)
+            intent.putExtra(getString(R.string.intent_location_name), name)
             startActivity(intent)
         }
     }

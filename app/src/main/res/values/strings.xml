@@ -125,7 +125,9 @@
     <string name="duration">Duration: %dh</string>
     <string name="price">%d€</string>
     <string name="title_activity_profil">ProfilActivity</string>
-    <string name="intent_city">fr.beeguide.app.CITY</string>
+    <string name="intent_location_name">fr.beeguide.app.LOCATION_NAME</string>
+    <string name="intent_location_latitude">fr.beeguide.app.LOCATION_LATITUDE</string>
+    <string name="intent_location_longitude">fr.beeguide.app.LOCATION_LONGITUDE</string>
     <string name="preference_file_token">fr.beeguide.app.PREFERENCE_FILE_TOKEN</string>
     <string name="token">fr.beeguide.app.TOKEN</string>
     <string name="token_default">NO_TOKEN</string>
