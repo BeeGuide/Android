@@ -1,24 +1,21 @@
 package fr.beeguide.beeguide
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.DatePickerDialog
+import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.content.res.Resources
+import android.icu.util.Calendar
 import android.location.Location
-import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
-import android.text.Html
-import android.text.Spanned
-import android.text.TextUtils
 import android.util.Log
-import android.view.KeyEvent
 import android.view.View
-import android.view.inputmethod.EditorInfo
 import android.widget.*
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
@@ -28,11 +25,8 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.places.AutocompletePrediction
 import com.google.android.gms.location.places.PlaceBuffer
 import com.google.android.gms.location.places.Places
-import com.google.android.gms.location.places.Places.GeoDataApi
-import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment
 import com.google.android.gms.location.places.ui.PlacePicker
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.LatLngBounds
 
 class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
@@ -42,13 +36,24 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks, G
             "Marseille", "Lille", "Chateauneuf-les-martigues")
 
     val PLACE_PICKER_REQUEST = 1
+
     val cityView: AutoCompleteTextView by lazy { findViewById(R.id.autocomplete_places) as AutoCompleteTextView }
+    val dateView: TextView by lazy { findViewById(R.id.dateView) as TextView }
+
     var mGoogleApiClient: GoogleApiClient? = null
     var mLastLocation: Location? = null
     private var mAutocompleteView: AutoCompleteTextView? = null
     private var mAdapter: PlaceAutocompleteAdapter? = null
     var requestLocation: Location = Location("")
+    var datePicker: DatePicker? = null
 
+    var year = 0
+    var month = 0
+    var day = 0
+
+    private var datePickerDialog: DatePickerDialog? = null
+
+    @SuppressLint("NewApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -99,7 +104,34 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks, G
             mAutocompleteView!!.setAdapter(mAdapter)
         }
 
+        val calendar = Calendar.getInstance()
+        year = calendar.get(Calendar.YEAR)
+        month = calendar.get(Calendar.MONTH) +1
+        day = calendar.get(Calendar.DAY_OF_MONTH)
+        showDate(year,month,day)
+        dateView.setOnClickListener {setDate()}
     }
+
+    fun showDate(year: Int,month:Int, day:Int){
+        dateView.setText(StringBuilder().append(day).append("/").append(month).append("/").append(year))
+    }
+
+    fun setDate() {
+        datePickerDialog = DatePickerDialog(this, myDateListener, year, month, day)
+        datePickerDialog!!.show()
+        Toast.makeText(getApplicationContext(), "ca",
+                Toast.LENGTH_SHORT)
+                .show()
+    }
+
+    private val myDateListener: DatePickerDialog.OnDateSetListener =
+            DatePickerDialog.OnDateSetListener {
+                datePicker, year, month, day -> showDate(year, month+1, day)
+            }
+
+
+
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == PLACE_PICKER_REQUEST) {

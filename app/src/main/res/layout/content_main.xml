@@ -68,10 +68,14 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="Date"
                 android:inputType="date"
                 android:ems="10"
-                android:id="@+id/editText"
+                android:id="@+id/dateView"
+                android:textAlignment="center"
+                android:focusable="false"
                 android:paddingTop="@dimen/activity_vertical_margin"
+
                 android:layout_weight="1" />
 
         </LinearLayout>
