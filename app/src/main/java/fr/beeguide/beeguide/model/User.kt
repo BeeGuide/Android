@@ -1,5 +1,6 @@
 package fr.beeguide.beeguide.model
 
+import java.io.Serializable
 import java.util.*
 
 class User (
@@ -9,8 +10,8 @@ class User (
         var birthday: Date,
         var sex: Sex,
         var picture: String
-)
+) : Serializable
 
-enum class Sex {
+enum class Sex : Serializable {
         FEMALE, MALE
 }

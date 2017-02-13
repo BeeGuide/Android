@@ -54,6 +54,17 @@
         android:rating="4" />
 
     <TextView
+        android:text="@string/price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/price"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:layout_alignBottom="@+id/profilePicture"
+        android:layout_alignLeft="@+id/thematique"
+        android:layout_alignStart="@+id/thematique"
+        android:textColor="@color/colorPrimary" />
+
+    <TextView
         android:text="@string/duration"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

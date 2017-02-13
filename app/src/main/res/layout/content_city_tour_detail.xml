@@ -29,7 +29,7 @@
                 android:layout_marginRight="@dimen/activity_horizontal_margin" />
 
             <TextView
-                android:id="@+id/guide"
+                android:id="@+id/guide_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
@@ -43,7 +43,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/guide"
+                android:layout_below="@id/guide_detail"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="8dp"
@@ -72,7 +72,7 @@
                 android:visibility="invisible" />
 
             <TextView
-                android:id="@+id/thematic"
+                android:id="@+id/thematic_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
@@ -86,7 +86,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/thematic"
+                android:layout_below="@id/thematic_detail"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="8dp"
@@ -116,7 +116,7 @@
                 android:layout_marginRight="@dimen/activity_horizontal_margin" />
 
             <RatingBar
-                android:id="@+id/rating"
+                android:id="@+id/rating_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
@@ -135,7 +135,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/rating"
+                android:layout_below="@id/rating_detail"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="8dp"
@@ -164,7 +164,7 @@
                 android:visibility="invisible" />
 
             <TextView
-                android:id="@+id/occupation"
+                android:id="@+id/occupation_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
@@ -180,7 +180,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/occupation"
+                android:layout_below="@id/occupation_detail"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="8dp"
@@ -210,7 +210,7 @@
                 android:layout_marginRight="@dimen/activity_horizontal_margin" />
 
             <TextView
-                android:id="@+id/price"
+                android:id="@+id/price_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
@@ -226,7 +226,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/price"
+                android:layout_below="@id/price_detail"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="8dp"

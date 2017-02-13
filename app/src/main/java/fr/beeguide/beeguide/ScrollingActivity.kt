@@ -1,23 +1,18 @@
 package fr.beeguide.beeguide
 
+import android.content.Intent
 import android.location.Location
 import android.os.Bundle
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.FloatingActionButton
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
-import android.util.Log
-import android.view.View
 import android.widget.*
 import fr.beeguide.beeguide.model.CityTour
 import fr.beeguide.beeguide.model.Sex
 import fr.beeguide.beeguide.model.User
 import java.util.*
 import android.widget.AdapterView.OnItemClickListener
-
-
-
-
 
 
 class ScrollingActivity : AppCompatActivity() {
@@ -49,8 +44,15 @@ class ScrollingActivity : AppCompatActivity() {
         }
 
         mListView.onItemClickListener = OnItemClickListener { parent, view, position, id ->
-            val item = (view as RelativeLayout)
-            Toast.makeText(baseContext, "item", Toast.LENGTH_LONG).show()
+            val ct:CityTour = parent.getItemAtPosition(position) as CityTour
+            val intent2 = Intent(this, CityTourDetailActivity::class.java)
+            intent2.putExtra("ex_username", ct.guide.username)
+            intent2.putExtra("ex_thematic", ct.thematic)
+            intent2.putExtra("ex_rating", ct.rating.toInt())
+            intent2.putExtra("ex_occupation", ct.occupation.toString())
+            intent2.putExtra("ex_price", ct.price.toString())
+            intent2.putExtra("ex_picture", ct.guide.picture)
+            startActivity(intent2)
         }
 
         val fab = findViewById(R.id.fab) as FloatingActionButton
