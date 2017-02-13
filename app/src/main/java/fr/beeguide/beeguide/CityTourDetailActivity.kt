@@ -23,8 +23,8 @@ class CityTourDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_city_tour_detail)
-        val toolbar = findViewById(R.id.toolbar) as Toolbar
-        setSupportActionBar(toolbar)
+        //val toolbar = findViewById(R.id.toolbar) as Toolbar
+        //setSupportActionBar(toolbar)
 
         val intent = intent
 
@@ -48,6 +48,6 @@ class CityTourDetailActivity : AppCompatActivity() {
             Snackbar.make(view, "Booked ! $username will wait for you !", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
         }
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        //supportActionBar!!.setDisplayHomeAsUpEnabled(true)
     }
 }
