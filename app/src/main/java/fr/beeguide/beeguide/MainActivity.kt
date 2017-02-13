@@ -107,6 +107,7 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks, G
         val calendar = Calendar.getInstance()
         year = calendar.get(Calendar.YEAR)
         month = calendar.get(Calendar.MONTH) +1
+
         day = calendar.get(Calendar.DAY_OF_MONTH)
         showDate(year,month,day)
         dateView.setOnClickListener {setDate()}
