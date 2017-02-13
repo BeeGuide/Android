@@ -6,12 +6,15 @@ import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.View
+import android.widget.Button
+import android.widget.ImageButton
 
 class ProfilActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profil)
+
 
 
         /*val toolbar = findViewById(R.id.toolbar) as Toolbar
