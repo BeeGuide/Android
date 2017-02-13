@@ -7,13 +7,15 @@ import android.support.design.widget.FloatingActionButton
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.util.Log
-import android.widget.ImageView
-import android.widget.ListView
+import android.view.View
+import android.widget.*
 import fr.beeguide.beeguide.model.CityTour
 import fr.beeguide.beeguide.model.Sex
 import fr.beeguide.beeguide.model.User
 import java.util.*
-import android.widget.TextView
+import android.widget.AdapterView.OnItemClickListener
+
+
 
 
 
@@ -44,6 +46,11 @@ class ScrollingActivity : AppCompatActivity() {
             (findViewById(R.id.app_bar) as AppBarLayout).setExpanded(false)
             v.parent.requestDisallowInterceptTouchEvent(true)
             false
+        }
+
+        mListView.onItemClickListener = OnItemClickListener { parent, view, position, id ->
+            val item = (view as RelativeLayout)
+            Toast.makeText(baseContext, "item", Toast.LENGTH_LONG).show()
         }
 
         val fab = findViewById(R.id.fab) as FloatingActionButton
