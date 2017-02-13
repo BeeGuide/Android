@@ -124,7 +124,7 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks, G
             if (resultCode == Activity.RESULT_OK) {
                 val place = PlacePicker.getPlace(this, data)
                 val toastMsg = String.format("Place: %s", place.name)
-                Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show()
+                //Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -223,8 +223,8 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks, G
                 .getPlaceById(mGoogleApiClient, placeId)
         placeResult.setResultCallback(mUpdatePlaceDetailsCallback)
 
-        Toast.makeText(applicationContext, "Clicked: " + primaryText,
-                Toast.LENGTH_SHORT).show()
+        //Toast.makeText(applicationContext, "Clicked: " + primaryText,
+        //        Toast.LENGTH_SHORT).show()
 
         var places: PendingResult<PlaceBuffer> = Places.GeoDataApi.getPlaceById(mGoogleApiClient, placeId)
         Places.GeoDataApi.getPlaceById(mGoogleApiClient, placeId)

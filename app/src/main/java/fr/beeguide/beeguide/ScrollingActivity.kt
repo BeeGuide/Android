@@ -62,7 +62,7 @@ class ScrollingActivity : AppCompatActivity() {
             "Givors" -> cityView.setImageResource(R.drawable.givors)
             "Lille" -> cityView.setImageResource(R.drawable.lille)
             "Marseille" -> cityView.setImageResource(R.drawable.marseille)
-            "Chateau-neuf-les-martigues" -> cityView.setImageResource(R.drawable.chateau9)
+            "Chateauneuf-les-martigues" -> cityView.setImageResource(R.drawable.chateau9)
         }
     }
 

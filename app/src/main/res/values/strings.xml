@@ -141,4 +141,10 @@
     <string name="create_account">Create Account</string>
     <string name="empty_list">Oops! Nobody\'s here :(</string>
     <string name="prompt_when">When ?</string>
+    <string name="title_activity_city_tour_detail"></string>
+    <string name="guide">Guide</string>
+    <string name="thematic">Thematic</string>
+    <string name="occupation_label">Occupation</string>
+    <string name="price_label">Price</string>
+    <string name="rating">Rating</string>
 </resources>
