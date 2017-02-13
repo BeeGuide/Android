@@ -4,10 +4,9 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.DatePickerDialog
-import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.icu.util.Calendar
+
 import android.location.Location
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
@@ -15,7 +14,7 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.util.Log
-import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.widget.*
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
@@ -27,13 +26,11 @@ import com.google.android.gms.location.places.PlaceBuffer
 import com.google.android.gms.location.places.Places
 import com.google.android.gms.location.places.ui.PlacePicker
 import com.google.android.gms.maps.model.LatLng
+import java.util.*
 
 class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     val TAG = "SampleActivityBase"
-
-    private val AVAILABLE_CITIES = arrayOf("Lyon", "Givors", "Paris", "Toulouse",
-            "Marseille", "Lille", "Chateauneuf-les-martigues")
 
     val PLACE_PICKER_REQUEST = 1
 
@@ -45,7 +42,6 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks, G
     private var mAutocompleteView: AutoCompleteTextView? = null
     private var mAdapter: PlaceAutocompleteAdapter? = null
     var requestLocation: Location = Location("")
-    var datePicker: DatePicker? = null
 
     var year = 0
     var month = 0
@@ -69,16 +65,13 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks, G
         val user = intent.getStringExtra(getString(R.string.token))
         title = String.format(getString(R.string.logged_message), user)
 
-        val adapter = ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line, AVAILABLE_CITIES)
-        cityView.setAdapter<ArrayAdapter<String>>(adapter)
-        /*cityView.setOnEditorActionListener(TextView.OnEditorActionListener { textView, id, keyEvent ->
+        cityView.setOnEditorActionListener(TextView.OnEditorActionListener { textView, id, keyEvent ->
             if (id == R.id.go || id == EditorInfo.IME_NULL) {
-                go(requestLocation)
+                go(requestLocation, cityView.text.toString())
                 return@OnEditorActionListener true
             }
             false
-        })*/
+        })
 
         goButton.setOnClickListener({ go(requestLocation, cityView.text.toString()) })
 
@@ -86,7 +79,7 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks, G
         //autocompleteFragment.setOnPlaceSelectedListener(this);
 
         mAutocompleteView = findViewById(R.id.autocomplete_places) as AutoCompleteTextView
-        mAutocompleteView!!.setOnItemClickListener(mAutocompleteClickListener)
+        mAutocompleteView!!.onItemClickListener = mAutocompleteClickListener
 
         //placeInput.setOnEditorActionListener { textView, i, keyEvent -> onEditorAction(textView, i, keyEvent) }
 
@@ -109,19 +102,11 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks, G
         month = calendar.get(Calendar.MONTH) +1
         day = calendar.get(Calendar.DAY_OF_MONTH)
         showDate(year,month,day)
-        dateView.setOnClickListener {setDate()}
+        dateView.setOnClickListener { showDatePicker() }
     }
 
-    fun showDate(year: Int,month:Int, day:Int){
-        dateView.setText(StringBuilder().append(day).append("/").append(month).append("/").append(year))
-    }
-
-    fun setDate() {
-        datePickerDialog = DatePickerDialog(this, myDateListener, year, month, day)
-        datePickerDialog!!.show()
-        Toast.makeText(getApplicationContext(), "ca",
-                Toast.LENGTH_SHORT)
-                .show()
+    fun showDate(year: Int, month:Int, day:Int){
+        dateView.text = StringBuilder().append(day).append("/").append(month).append("/").append(year)
     }
 
     private val myDateListener: DatePickerDialog.OnDateSetListener =
@@ -129,9 +114,10 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks, G
                 datePicker, year, month, day -> showDate(year, month+1, day)
             }
 
-
-
-
+    fun showDatePicker() {
+        datePickerDialog = DatePickerDialog(this, myDateListener, year, month, day)
+        datePickerDialog!!.show()
+    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == PLACE_PICKER_REQUEST) {
@@ -167,11 +153,8 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks, G
     }
 
     override fun onConnected(p0: Bundle?) {
-        var mLatitudeText: String
-        var mLongitudeText: String
-
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-
+            // Wut ?
         }
 
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient)
@@ -227,7 +210,7 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks, G
          read the place ID and title.
           */
         val item: AutocompletePrediction = mAdapter!!.getItem(position)
-        val placeId = item.getPlaceId()
+        val placeId = item.placeId
         val primaryText = item.getPrimaryText(null)
 
         Log.i(TAG, "Autocomplete item selected: " + primaryText)
@@ -246,8 +229,6 @@ class MainActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks, G
         var places: PendingResult<PlaceBuffer> = Places.GeoDataApi.getPlaceById(mGoogleApiClient, placeId)
         Places.GeoDataApi.getPlaceById(mGoogleApiClient, placeId)
             .setResultCallback(mUpdatePlaceDetailsCallback)
-
-
 
         Log.i(TAG, "Called getPlaceById to get Place details for " + placeId!!)
     }
