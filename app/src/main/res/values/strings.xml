@@ -19,7 +19,7 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="description">Description : Je m\'appelle groot</string>
+    <string name="description">Description : Je m\'appelle root</string>
     <string name="mail">E-mail : root@admin.com</string>
     <string name="age">Age : 22 ans</string>
     <string name="phone">Phone Number : 06.42.12.70.01</string>
