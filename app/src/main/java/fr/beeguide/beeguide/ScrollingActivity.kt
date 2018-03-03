@@ -5,14 +5,24 @@ import android.location.Location
 import android.os.Bundle
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.FloatingActionButton
+import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
+import android.util.Log
 import android.widget.*
 import fr.beeguide.beeguide.model.CityTour
 import fr.beeguide.beeguide.model.Sex
 import fr.beeguide.beeguide.model.User
 import java.util.*
 import android.widget.AdapterView.OnItemClickListener
+import org.springframework.http.HttpRequest
+import org.springframework.http.converter.StringHttpMessageConverter
+
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+import org.springframework.web.client.RestTemplate
+import android.widget.Toast
+
+
 
 
 class ScrollingActivity : AppCompatActivity() {
@@ -132,6 +142,13 @@ class ScrollingActivity : AppCompatActivity() {
 
         // We filter by location
         val requestedTours = toursAvailables.filter { requestedLocation.distanceTo(it.location) < 50 }
+
+        val url: String = "http://localhost:8080/foo"
+        val restTemplate: RestTemplate = RestTemplate()
+        restTemplate.messageConverters.add(StringHttpMessageConverter())
+        val result:String = restTemplate.getForObject(url, String::class.java)
+        Toast.makeText(this, result, Toast.LENGTH_LONG).show()
+
 
         return requestedTours
     }

@@ -36,6 +36,8 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile "org.jetbrains.anko:anko-sdk15:$anko_version" // So here it's 15 too
 
+    compile 'org.springframework.android:spring-android-rest-template:2.0.0.M3'
+
     compile 'com.google.android.gms:play-services-location:10.0.1'
     compile 'com.google.android.gms:play-services-places:10.0.1'
 
@@ -44,4 +46,7 @@ dependencies {
 }
 repositories {
     mavenCentral()
+    maven {
+        url 'https://repo.spring.io/libs-milestone'
+    }
 }
